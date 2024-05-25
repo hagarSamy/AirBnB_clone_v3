@@ -5,6 +5,7 @@ import os
 from flask import Flask
 from models import storage
 from api.v1.views import app_views
+from flask import jsonify
 
 
 app = Flask(__name__)
@@ -16,6 +17,12 @@ app.register_blueprint(app_views)
 def teardown(exception):
     """closes the current SQLAchemy session"""
     storage.close()
+
+
+@app.errorhandler(404)
+def notfound(error):
+    """returns a JSON-formatted 404 status code response"""
+    return (jsonify({"error": "Not found"}))
 
 
 if __name__ == "__main__":

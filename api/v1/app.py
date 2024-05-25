@@ -24,6 +24,7 @@ def notfound(error):
     """returns a JSON-formatted 404 status code response"""
     response = jsonify({"error": "Not found"})
     response.status_code = 404
+    # make_response(jsonify({"error": "Not found"}), 404)
     return (response)
 
 

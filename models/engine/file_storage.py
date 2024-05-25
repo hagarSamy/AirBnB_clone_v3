@@ -81,7 +81,7 @@ class FileStorage:
         if type(cls) is str:
             cls = classes.get(cls)
         if cls is None:
-            return len(self.all()) # returns the total number of objects
+            return len(self.all())  # returns the total number of objects
         return len(self.all(cls))
 
     def close(self):

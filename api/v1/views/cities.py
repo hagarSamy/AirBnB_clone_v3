@@ -45,11 +45,12 @@ def add_city():
         abort(400, description="Not a JSON")
     if 'name' not in request.json:
         abort(400, description="Missing name")
-    citydict = request.get_json
+    citydict = request.get_json()
     new_city = City(name=citydict['name'])
     storage.new(new_city)
     storage.save()
     return make_response(jsonify(new_city.to_dict()), 201)
+
 
 @app_views.route('/cities/<city_id>',  methods=['PUT'], strict_slashes=False)
 def update_city(city_id):

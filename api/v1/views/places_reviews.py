@@ -47,11 +47,12 @@ def add_review():
         abort(400, description="Not a JSON")
     if 'name' not in request.json:
         abort(400, description="Missing name")
-    reviewdict = request.get_json
+    reviewdict = request.get_json()
     new_review = Place(name=reviewdict['name'])
     storage.new(new_review)
     storage.save()
     return make_response(jsonify(new_review.to_dict()), 201)
+
 
 @app_views.route('/reviews/<review_id>',  methods=['PUT'], strict_slashes=False)
 def update_review(review_id):

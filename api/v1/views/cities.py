@@ -15,8 +15,9 @@ def get_cities(state_id):
     state = storage.get(State, state_id)
     if not state:
         abort(404)
-    cities = storage.all(City)
-    return jsonify([city.to_dict() for city in cities.values()])
+    # cities = storage.all(City)
+    cities = state.cities
+    return jsonify([city.to_dict() for city in cities])
 
 
 @app_views.route('/cities/<city_id>',  methods=['GET'], strict_slashes=False)

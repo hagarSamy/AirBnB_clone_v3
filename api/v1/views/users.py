@@ -15,7 +15,7 @@ def get_users():
     return jsonify([a.to_dict() for a in users.values()])
 
 
-@app_views.route('/users/<user_id>',  methods=['GET'],
+@app_views.route('/users/<user_id>', methods=['GET'],
                  strict_slashes=False)
 def get_a_user(user_id):
     """comment"""
@@ -51,7 +51,7 @@ def add_user():
     return make_response(jsonify(user.to_dict()), 201)
 
 
-@app_views.route('/users/<user_id>',  methods=['PUT'],
+@app_views.route('/users/<user_id>', methods=['PUT'],
                  strict_slashes=False)
 def update_user(user_id):
     """comment"""

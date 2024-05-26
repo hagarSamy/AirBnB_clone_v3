@@ -8,11 +8,12 @@ from models.city import City
 from models.state import State
 
 
-@app_views.route('/states/<state_id>/cities',  methods=['GET'], strict_slashes=False)
+@app_views.route('/states/<state_id>/cities',  methods=['GET'],
+                 strict_slashes=False)
 def get_cities(state_id):
     """Retrieve the list of all City objects of a State"""
     state = storage.get(State, state_id)
-    if state is None:
+    if not state:
         abort(404)
     cities = storage.all(City)
     return jsonify([city.to_dict() for city in cities.values()])
@@ -27,7 +28,8 @@ def get_a_city(city_id):
     return jsonify(city.to_dict())
 
 
-@app_views.route('/cities/<city_id>',  methods=['DELETE'], strict_slashes=False)
+@app_views.route('/cities/<city_id>', methods=['DELETE'],
+                 strict_slashes=False)
 def del_a_city(city_id):
     '''Deletes a City object'''
     city = storage.get(State, city_id)
@@ -38,7 +40,8 @@ def del_a_city(city_id):
     return make_response(jsonify({}), 200)
 
 
-@app_views.route('/states/<state_id>/cities',  methods=['POST'], strict_slashes=False)
+@app_views.route('/states/<state_id>/cities', methods=['POST'],
+                 strict_slashes=False)
 def add_city():
     '''Creates a City'''
     if not request.json:

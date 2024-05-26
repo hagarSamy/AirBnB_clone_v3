@@ -6,6 +6,7 @@ from flask import jsonify, abort, make_response, request
 from models import storage
 from models.place import Place
 from models.review import Review
+from models.user import User
 
 
 @app_views.route('/places/<place_id>/reviews',
@@ -47,10 +48,12 @@ def add_review():
     '''Creates a Review'''
     if not request.json:
         abort(400, description="Not a JSON")
-    if 'name' not in request.json:
-        abort(400, description="Missing name")
     reviewdict = request.get_json()
-    new_review = Place(name=reviewdict['name'])
+    if not storage.get(User, reviewdict['user_id']):
+            abort(404)
+    if 'text' not in reviewdict:
+            abort(400, 'Missing text')
+    new_review = Place(**reviewdict)
     storage.new(new_review)
     storage.save()
     return make_response(jsonify(new_review.to_dict()), 201)

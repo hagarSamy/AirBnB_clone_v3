@@ -7,6 +7,7 @@ from models import storage
 from models.city import City
 from models.state import State
 from models.place import Place
+from models.user import User
 
 
 @app_views.route('/cities/<city_id>/places',
@@ -33,9 +34,9 @@ def get_a_place(place_id):
 
 @app_views.route('/places/<place_id>',
                  methods=['DELETE'], strict_slashes=False)
-def del_a_place(city_id):
+def del_a_place(place_id):
     '''Deletes a Place object:'''
-    place = storage.get(Place, city_id)
+    place = storage.get(Place, place_id)
     if place is None:
         abort(404)
     storage.delete(place)
@@ -47,22 +48,24 @@ def del_a_place(city_id):
                  methods=['POST'], strict_slashes=False)
 def add_place():
     '''Creates a Place'''
-    if not request.json:
+    placedict = request.get_json()
+    if not placedict:
         abort(400, description="Not a JSON")
-    if 'name' not in request.json:
+    if 'user_id' not in placedict:
         abort(400, description="Missing name")
-    placedict = request.get_json
-    new_place = Place(name=placedict['name'])
-    storage.new(new_place)
+    user = storage.get(User, placedict['user_id'])
+    if 'name' not in placedict:
+        abort(400, 'Missing name')
+    new_place = Place(**placedict)
     storage.save()
     return make_response(jsonify(new_place.to_dict()), 201)
 
 
 @app_views.route('/places/<place_id>',
                  methods=['PUT'], strict_slashes=False)
-def update_place(city_id):
+def update_place(place_id):
     '''Updates a Place object'''
-    place = storage.get(Place, city_id)
+    place = storage.get(Place,place_id)
     if place is None:
         abort(404)
     if not request.get_json():

@@ -20,7 +20,6 @@ def get_a_state(state_id):
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
-    state = storage.get(State, state_id)
     return jsonify(state.to_dict())
 
 
@@ -43,7 +42,7 @@ def add_state():
         abort(400, description="Not a JSON")
     if 'name' not in request.json:
         abort(400, description="Missing name")
-    statedict = request.get_json
+    statedict = request.get_json()
     new_state = State(name=statedict['name'])
     storage.new(new_state)
     storage.save()

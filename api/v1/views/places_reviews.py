@@ -67,7 +67,8 @@ def update_review(review_id):
         abort(400, description="Not a JSON")
     httpbody = request.get_json()
     for key, value in httpbody.items():
-        if key not in ['id', 'created_at', 'user_id', 'place_id', 'updated_at']:
+        if key not in ['id', 'created_at',
+                       'user_id', 'place_id', 'updated_at']:
             setattr(review, key, value)
     storage.save()
     return jsonify(review.to_dict())

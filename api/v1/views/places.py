@@ -65,7 +65,7 @@ def add_place():
                  methods=['PUT'], strict_slashes=False)
 def update_place(place_id):
     '''Updates a Place object'''
-    place = storage.get(Place,place_id)
+    place = storage.get(Place, place_id)
     if place is None:
         abort(404)
     if not request.get_json():

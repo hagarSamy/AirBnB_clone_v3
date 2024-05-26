@@ -22,6 +22,7 @@ def get_reviews(place_id):
 
 @app_views.route('/reviews/<review_id>',  methods=['GET'], strict_slashes=False)
 def get_a_review(review_id):
+    '''Retrieves a Review object'''
     review = storage.get(Review, review_id)
     if review is None:
         abort(404)
@@ -30,6 +31,7 @@ def get_a_review(review_id):
 
 @app_views.route('/reviews/<review_id>',  methods=['DELETE'], strict_slashes=False)
 def del_a_review(review_id):
+    '''Deletes a Review object'''
     review = storage.get(Review, review_id)
     if review is None:
         abort(404)
@@ -40,6 +42,7 @@ def del_a_review(review_id):
 
 @app_views.route('/places/<place_id>/reviews',  methods=['POST'], strict_slashes=False)
 def add_review():
+    '''Creates a Review'''
     if not request.json:
         abort(400, description="Not a JSON")
     if 'name' not in request.json:
@@ -52,6 +55,7 @@ def add_review():
 
 @app_views.route('/reviews/<review_id>',  methods=['PUT'], strict_slashes=False)
 def update_review(review_id):
+    '''Updates a Review objec'''
     review = storage.get(Review, review_id)
     if review is None:
         abort(404)

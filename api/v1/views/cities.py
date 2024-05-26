@@ -49,7 +49,7 @@ def add_city(state_id):
         abort(400, description="Not a JSON")
     if 'name' not in request.get_json():
         abort(400, description="Missing name")
-    citydict = request.get_json()
+    citydict = request.json
     new_city = City(state_id=state_id, name=citydict['name'])
     storage.new(new_city)
     storage.save()
@@ -64,7 +64,7 @@ def update_city(city_id):
         abort(404)
     if not request.get_json():
         abort(400, description="Not a JSON")
-    httpbody = request.get_json()
+    httpbody = request.json
     for key, value in httpbody.items():
         if key not in ['id', 'state_id', 'created_at', 'updated_at']:
             setattr(city, key, value)

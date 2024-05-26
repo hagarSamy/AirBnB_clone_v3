@@ -21,6 +21,7 @@ def get_places(city_id):
 
 @app_views.route('/places/<place_id>',  methods=['GET'], strict_slashes=False)
 def get_a_place(place_id):
+    """Retrieves a Place object"""
     place = storage.get(Place, place_id)
     if place is None:
         abort(404)
@@ -29,6 +30,7 @@ def get_a_place(place_id):
 
 @app_views.route('/places/<place_id>',  methods=['DELETE'], strict_slashes=False)
 def del_a_place(city_id):
+    '''Deletes a Place object:'''
     place = storage.get(Place, city_id)
     if place is None:
         abort(404)
@@ -39,6 +41,7 @@ def del_a_place(city_id):
 
 @app_views.route('/cities/<city_id>/places',  methods=['POST'], strict_slashes=False)
 def add_place():
+    '''Creates a Place'''
     if not request.json:
         abort(400, description="Not a JSON")
     if 'name' not in request.json:
@@ -51,6 +54,7 @@ def add_place():
 
 @app_views.route('/places/<place_id>',  methods=['PUT'], strict_slashes=False)
 def update_place(city_id):
+    '''Updates a Place object'''
     place = storage.get(Place, city_id)
     if place is None:
         abort(404)

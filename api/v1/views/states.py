@@ -16,7 +16,7 @@ def get_states():
 
 @app_views.route('/states/<state_id>',  methods=['GET'], strict_slashes=False)
 def get_a_state(state_id):
-    """comment"""
+    """Retrieves a State object"""
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
@@ -27,7 +27,7 @@ def get_a_state(state_id):
 @app_views.route('/states/<state_id>',  methods=['DELETE'],
                  strict_slashes=False)
 def del_a_state(state_id):
-    """comment"""
+    """Deletes a State object"""
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
@@ -38,7 +38,7 @@ def del_a_state(state_id):
 
 @app_views.route('/states',  methods=['POST'], strict_slashes=False)
 def add_state():
-    """comment"""
+    """Creates a State"""
     if not request.json:
         abort(400, description="Not a JSON")
     if 'name' not in request.json:
@@ -51,7 +51,7 @@ def add_state():
 
 @app_views.route('/states/<state_id>',  methods=['PUT'], strict_slashes=False)
 def update_state(state_id):
-    """comment"""
+    """Updates a State object"""
     state = storage.get(State, state_id)
     if state is None:
         abort(404)

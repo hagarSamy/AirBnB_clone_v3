@@ -20,6 +20,7 @@ def get_cities(state_id):
 
 @app_views.route('/cities/<city_id>',  methods=['GET'], strict_slashes=False)
 def get_a_city(city_id):
+    '''Retrieves a City object'''
     city = storage.get(City, city_id)
     if city is None:
         abort(404)
@@ -28,6 +29,7 @@ def get_a_city(city_id):
 
 @app_views.route('/cities/<city_id>',  methods=['DELETE'], strict_slashes=False)
 def del_a_city(city_id):
+    '''Deletes a City object'''
     city = storage.get(State, city_id)
     if city is None:
         abort(404)
@@ -38,6 +40,7 @@ def del_a_city(city_id):
 
 @app_views.route('/states/<state_id>/cities',  methods=['POST'], strict_slashes=False)
 def add_city():
+    '''Creates a City'''
     if not request.json:
         abort(400, description="Not a JSON")
     if 'name' not in request.json:
@@ -50,6 +53,7 @@ def add_city():
 
 @app_views.route('/cities/<city_id>',  methods=['PUT'], strict_slashes=False)
 def update_city(city_id):
+    '''Updates a City object'''
     city = storage.get(City, city_id)
     if city is None:
         abort(404)

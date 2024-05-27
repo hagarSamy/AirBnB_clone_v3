@@ -17,7 +17,7 @@ def get_cities(state_id):
         abort(404)
     # cities = storage.all(City)
     cities = state.cities
-    return jsonify([city.to_dict() for city in cities.values()])
+    return jsonify([city.to_dict() for city in cities])
 
 
 @app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes=False)
@@ -49,7 +49,7 @@ def add_city(state_id):
         abort(400, description="Not a JSON")
     if 'name' not in request.get_json():
         abort(400, description="Missing name")
-    citydict = request.json
+    citydict = request.get_json()
     new_city = City(state_id=state_id, name=citydict['name'])
     storage.new(new_city)
     storage.save()
@@ -64,7 +64,7 @@ def update_city(city_id):
         abort(404)
     if not request.get_json():
         abort(400, description="Not a JSON")
-    httpbody = request.json
+    httpbody = request.get_json()
     for key, value in httpbody.items():
         if key not in ['id', 'state_id', 'created_at', 'updated_at']:
             setattr(city, key, value)

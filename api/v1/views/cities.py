@@ -65,7 +65,7 @@ def update_city(city_id):
     city = storage.get(City, city_id)
     if city is None:
         abort(404)
-    if not request.get_json():
+    if not request.json:
         abort(400, description="Not a JSON")
     httpbody = request.get_json()
     for key, value in httpbody.items():

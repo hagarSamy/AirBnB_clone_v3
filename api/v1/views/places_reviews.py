@@ -46,7 +46,7 @@ def del_a_review(review_id):
                  methods=['POST'], strict_slashes=False)
 def add_review(place_id):
     '''Creates a Review'''
-    place = storage.get("Place", place_id)
+    place = storage.get(Place, place_id)
     if not place:
         abort(404)
     if not request.json:

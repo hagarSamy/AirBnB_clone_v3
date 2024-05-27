@@ -46,14 +46,19 @@ def del_a_place(place_id):
 
 @app_views.route('/cities/<city_id>/places',
                  methods=['POST'], strict_slashes=False)
-def add_place():
+def add_place(city_id):
     '''Creates a Place'''
+    city = storage.get("City", city_id)
+    if not city:
+        abort(404)
     placedict = request.get_json()
     if not placedict:
         abort(400, description="Not a JSON")
     if 'user_id' not in placedict:
         abort(400, description="Missing name")
     user = storage.get(User, placedict['user_id'])
+    if not user:
+        abort(404)
     if 'name' not in placedict:
         abort(400, 'Missing name')
     new_place = Place(**placedict)
@@ -70,7 +75,7 @@ def update_place(place_id):
         abort(404)
     if not request.get_json():
         abort(400, description="Not a JSON")
-    httpbody = request.json()
+    httpbody = request.json
     for key, value in httpbody.items():
         if key not in ['id', 'created_at', 'updated_at']:
             setattr(place, key, value)

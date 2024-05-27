@@ -33,7 +33,7 @@ def get_a_city(city_id):
                  strict_slashes=False)
 def del_a_city(city_id):
     '''Deletes a City object'''
-    city = storage.get(State, city_id)
+    city = storage.get(City, city_id)
     if city is None:
         abort(404)
     storage.delete(city)
@@ -45,6 +45,9 @@ def del_a_city(city_id):
                  strict_slashes=False)
 def add_city(state_id):
     '''Creates a City'''
+    state = storage.get('State', state_id)
+    if not state:
+        abort(404)  # to update a city from a state, get the state first
     if not request.get_json():
         abort(400, description="Not a JSON")
     if 'name' not in request.get_json():

@@ -70,7 +70,7 @@ def update_place(place_id):
         abort(404)
     if not request.get_json():
         abort(400, description="Not a JSON")
-    httpbody = request.json()
+    httpbody = request.get_json()
     for key, value in httpbody.items():
         if key not in ['id', 'created_at', 'updated_at']:
             setattr(place, key, value)

@@ -52,8 +52,8 @@ def add_city(state_id):
         abort(400, description="Not a JSON")
     if 'name' not in request.get_json():
         abort(400, description="Missing name")
-    #citydict = request.get_json()
-    #new_city = City(state_id=state_id, name=citydict['name'])
+    # citydict = request.get_json()
+    # new_city = City(state_id=state_id, name=citydict['name'])
     new_city = City(**new_city)
     setattr(new_city, 'state_id', state_id)
     storage.new(new_city)

@@ -44,8 +44,11 @@ def del_a_review(review_id):
 
 @app_views.route('/places/<place_id>/reviews',
                  methods=['POST'], strict_slashes=False)
-def add_review():
+def add_review(place_id):
     '''Creates a Review'''
+    place = storage.get("Place", place_id)
+    if not place:
+        abort(404)
     if not request.json:
         abort(400, description="Not a JSON")
     reviewdict = request.get_json()

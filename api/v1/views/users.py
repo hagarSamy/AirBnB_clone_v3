@@ -42,8 +42,11 @@ def add_user():
     """comment"""
     if not request.get_json():
         abort(400, description="Not a JSON")
-    if 'name' not in request.get_json():
-        abort(400, description="Missing name")
+    # added checks for email and pass
+    if 'email' not in request.get_json():
+        abort(400, description="Missing email")
+    if 'password' not in request.get_json():
+        abort(400, description="Missing password")
     user = User(name=request.get_json()['name'])
     storage.new(user)
     storage.save()
@@ -64,7 +67,7 @@ def update_user(user_id):
     # updating the user object's attributes based on the JSON data
     httpbody = request.get_json()
     for key, value in httpbody.items():
-        if key not in ['id', 'created_at', 'updated_at']:
+        if key not in ['id', 'email', 'created_at', 'updated_at']:
             setattr(user, key, value)
     storage.save()
     return make_response(jsonify(user.to_dict()), 200)

@@ -57,6 +57,8 @@ def add_place(city_id):
     if 'user_id' not in placedict:
         abort(400, description="Missing name")
     user = storage.get(User, placedict['user_id'])
+    if not user:
+        abort(404)
     if 'name' not in placedict:
         abort(400, 'Missing name')
     new_place = Place(**placedict)

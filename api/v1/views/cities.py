@@ -47,7 +47,7 @@ def add_city(state_id):
     '''Creates a City'''
     state = storage.get('State', state_id)
     if not state:
-        abort(404)  # to update a city drom a state, get the state first
+        abort(404)  # to update a city from a state, get the state first
     if not request.get_json():
         abort(400, description="Not a JSON")
     if 'name' not in request.get_json():

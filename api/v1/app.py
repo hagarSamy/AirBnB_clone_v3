@@ -11,11 +11,11 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 
-app.register_blueprint(app_views)
-
 # initialize CORS with the app instance
 # used "*" insteaed of "0.0.0.0" to allow all origins
 CORS(app, resources={r"/*": {"origins": "*"}})
+
+app.register_blueprint(app_views)
 
 
 @app.teardown_appcontext

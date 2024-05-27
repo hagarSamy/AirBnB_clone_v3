@@ -23,7 +23,7 @@ def get_cities(state_id):
 @app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes=False)
 def get_a_city(city_id):
     '''Retrieves a City object'''
-    city = storage.get("City", city_id)
+    city = storage.get(City, city_id)
     if city is None:
         abort(404)
     return jsonify(city.to_dict())
@@ -33,7 +33,7 @@ def get_a_city(city_id):
                  strict_slashes=False)
 def del_a_city(city_id):
     '''Deletes a City object'''
-    city = storage.get("City", city_id)
+    city = storage.get(City, city_id)
     if city is None:
         abort(404)
     storage.delete(city)
@@ -62,7 +62,7 @@ def add_city(state_id):
 @app_views.route('/cities/<city_id>', methods=['PUT'], strict_slashes=False)
 def update_city(city_id):
     '''Updates a City object'''
-    city = storage.get("City", city_id)
+    city = storage.get(City, city_id)
     if city is None:
         abort(404)
     if not request.get_json():

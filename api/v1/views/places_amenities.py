@@ -16,9 +16,12 @@ def get_ams(place_id):
     place = storage.get(Place, place_id)
     if place is None:
         abort(404)
-    amenities = storage.all(Amenity)
-    return jsonify([amenity.to_dict() for amenity in amenities.values()])
-
+    amenities = []
+    if environ.get('HBNB_TYPE_STORAGE') == "db":
+        amenities = [amenity.to_dict() for amenity in place.amenities]
+    else:
+        amenities = [storage.get(Amenity, amenity_id).to_dict() for amenity_id in place.amenity_ids]
+    return jsonify(amenities)
 
 @app_views.route('/places/<place_id>/amenities/<amenity_id>',
                  methods=['DELETE'], strict_slashes=False)
@@ -30,7 +33,12 @@ def del_a_review(place_id, amenity_id):
     amenity = storage.get(Amenity, amenity_id)
     if amenity is None:
         abort(404)
-    storage.delete(amenity)
+    if amenity not in place.amenities:
+        abort(404)
+    if environ.get('HBNB_TYPE_STORAGE') == "db":
+        place.amenities.remove(amenity)
+    else:
+        place.amenity_ids.remove(amenity_id)
     storage.save()
     return make_response(jsonify({}), 200)
 

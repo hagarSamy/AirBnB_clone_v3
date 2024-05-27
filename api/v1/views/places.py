@@ -39,16 +39,18 @@ def del_a_place(place_id):
     place = storage.get(Place, place_id)
     if place is None:
         abort(404)
-    # storage.delete(place)
-    place.delete()
+    storage.delete(place)
     storage.save()
     return make_response(jsonify({}), 200)
 
 
 @app_views.route('/cities/<city_id>/places',
                  methods=['POST'], strict_slashes=False)
-def add_place():
+def add_place(city_id):
     '''Creates a Place'''
+    city = storage.get("City", city_id)
+    if not city:
+        abort(404)
     placedict = request.get_json()
     if not placedict:
         abort(400, description="Not a JSON")

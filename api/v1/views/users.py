@@ -40,14 +40,21 @@ def del_a_users(user_id):
 @app_views.route('/users', methods=['POST'], strict_slashes=False)
 def add_user():
     """comment"""
-    if not request.get_json():
+    data  = request.get_json()
+    if not data:
         abort(400, description="Not a JSON")
     # added checks for email and pass
-    if 'email' not in request.get_json():
+    if 'email' not in data:
         abort(400, description="Missing email")
-    if 'password' not in request.get_json():
+    if 'password' not in data:
         abort(400, description="Missing password")
-    user = User(name=request.get_json()['name'])
+
+    name = data.get('name')
+    email = data.get('email')
+    password = data.get('password')
+
+    # Create a new user instance
+    user = User(name=name, email=email, password=password)
     storage.new(user)
     storage.save()
     # added a () on to_dict

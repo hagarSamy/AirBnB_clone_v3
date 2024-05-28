@@ -50,16 +50,22 @@ def add_review(place_id):
     place = storage.get(Place, place_id)
     if not place:
         abort(404)
-    if not request.get_json():
+
+    try:
+        reviewdict = request.get_json()
+    except Exception:
         abort(400, description="Not a JSON")
-    reviewdict = request.get_json()
-    if not storage.get(User, reviewdict['user_id']):
-        abort(404)
-    if 'text' not in reviewdict:
-        abort(400, 'Missing text')
+
     # checking on user_id existence
     if 'user_id' not in reviewdict:
         abort(400, description="Missing user_id")
+
+    if not storage.get(User, reviewdict['user_id']):
+        abort(404)
+
+    if 'text' not in reviewdict:
+        abort(400, 'Missing text')
+
     # linking the review to the place
     reviewdict['place_id'] = place_id
     new_review = Review(**reviewdict)

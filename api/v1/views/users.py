@@ -40,7 +40,10 @@ def del_a_users(user_id):
 @app_views.route('/users', methods=['POST'], strict_slashes=False)
 def add_user():
     """comment"""
-    if not request.get_json():
+    # adding a try exception clause
+    try:
+        request.get_json()
+    except Exception:
         abort(400, description="Not a JSON")
     # added checks for email and pass
     if 'email' not in request.get_json():
@@ -61,11 +64,13 @@ def update_user(user_id):
     user = storage.get(User, user_id)
     if user is None:
         abort(404)
-    if not request.get_json():
+    # adding a try exception clause
+    try:
+        httpbody = request.get_json()
+    except Exception:
         abort(400, description="Not a JSON")
 
     # updating the user object's attributes based on the JSON data
-    httpbody = request.get_json()
     for key, value in httpbody.items():
         if key not in ['id', 'email', 'created_at', 'updated_at']:
             setattr(user, key, value)

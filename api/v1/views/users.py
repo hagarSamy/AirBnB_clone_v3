@@ -40,7 +40,7 @@ def del_a_users(user_id):
 @app_views.route('/users', methods=['POST'], strict_slashes=False)
 def add_user():
     """comment"""
-    data  = request.get_json()
+    data = request.get_json()
     if not data:
         abort(400, description="Not a JSON")
     # added checks for email and pass

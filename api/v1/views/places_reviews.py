@@ -49,10 +49,9 @@ def add_review(place_id):
     place = storage.get(Place, place_id)
     if not place:
         abort(404)
-    try:
-        reviewdict = request.get_json()
-    except Exception:
+    if not request.json:
         abort(400, description="Not a JSON")
+    reviewdict = request.get_json()
     if not storage.get(User, reviewdict['user_id']):
             abort(404)
     if 'text' not in reviewdict:
@@ -70,11 +69,9 @@ def update_review(review_id):
     review = storage.get(Review, review_id)
     if review is None:
         abort(404)
-    # adding a try exception clause
-    try:
-        httpbody = request.get_json()
-    except Exception:
+    if not request.json:
         abort(400, description="Not a JSON")
+    httpbody = request.get_json()
     for key, value in httpbody.items():
         if key not in ['id', 'created_at',
                        'user_id', 'place_id', 'updated_at']:

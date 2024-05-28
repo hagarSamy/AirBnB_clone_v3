@@ -57,7 +57,9 @@ def add_review(place_id):
         abort(404)
     if 'text' not in reviewdict:
         abort(400, 'Missing text')
-    new_review = Place(**reviewdict)
+    # linking the review to the place
+    reviewdict['place_id'] = place_id
+    new_review = Review(**reviewdict)
     storage.new(new_review)
     storage.save()
     return make_response(jsonify(new_review.to_dict()), 201)

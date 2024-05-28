@@ -40,7 +40,10 @@ def del_a_amenity(amenity_id):
 @app_views.route('/amenities', methods=['POST'], strict_slashes=False)
 def add_amenity():
     """comment"""
-    if not request.get_json():
+    # adding a try exception clause
+    try:
+        request.get_json()
+    except Exception:
         abort(400, description="Not a JSON")
     if 'name' not in request.get_json():
         abort(400, description="Missing name")
@@ -58,11 +61,13 @@ def update_amenity(amenity_id):
     amenity = storage.get(Amenity, amenity_id)
     if amenity is None:
         abort(404)
-    if not request.get_json():
+    # adding a try exception clause
+    try:
+        httpbody = request.get_json()
+    except Exception:
         abort(400, description="Not a JSON")
 
     # updating the amenity object's attributes based on the JSON data
-    httpbody = request.get_json()
     for key, value in httpbody.items():
         if key not in ['id', 'created_at', 'updated_at']:
             setattr(amenity, key, value)

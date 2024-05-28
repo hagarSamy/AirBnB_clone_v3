@@ -57,6 +57,9 @@ def add_review(place_id):
         abort(404)
     if 'text' not in reviewdict:
         abort(400, 'Missing text')
+    # checking on user_id existence
+    if 'user_id' not in reviewdict:
+        abort(400, description="Missing user_id")
     # linking the review to the place
     reviewdict['place_id'] = place_id
     new_review = Review(**reviewdict)

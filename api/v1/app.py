@@ -15,7 +15,7 @@ app.register_blueprint(app_views)
 
 # initialize CORS with the app instance
 # used "*" insteaed of "0.0.0.0" to allow all origins
-CORS(app, resources={r"/*": {"origins": "*"}})
+# CORS(app, resources={r"/*": {"origins": "*"}})  -- moved to last line
 
 
 @app.teardown_appcontext
@@ -37,3 +37,4 @@ if __name__ == "__main__":
     host = os.getenv('HBNB_API_HOST', '0.0.0.0')
     port = int(os.getenv('HBNB_API_PORT', 5000))
     app.run(host=host, port=port, threaded=True)
+    CORS(app, resources={r"/*": {"origins": "*"}})

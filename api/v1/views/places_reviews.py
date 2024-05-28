@@ -49,7 +49,7 @@ def add_review(place_id):
     place = storage.get(Place, place_id)
     if not place:
         abort(404)
-    if not request.json:
+    if not request.get_json():
         abort(400, description="Not a JSON")
     reviewdict = request.get_json()
     if not storage.get(User, reviewdict['user_id']):
@@ -69,7 +69,7 @@ def update_review(review_id):
     review = storage.get(Review, review_id)
     if review is None:
         abort(404)
-    if not request.json:
+    if not request.get_json():
         abort(400, description="Not a JSON")
     httpbody = request.get_json()
     for key, value in httpbody.items():

@@ -51,8 +51,14 @@ def add_review(place_id):
     if not place:
         abort(404)
 
-    reviewdict = request.get_json()
-    if not reviewdict:
+    # reviewdict = request.get_json()
+    # if not reviewdict:
+    #     abort(400, description="Not a JSON")
+    try:
+        reviewdict = request.get_json()
+        if reviewdict is None:
+            abort(400, description="Not a JSON")
+    except Exception:
         abort(400, description="Not a JSON")
 
     # checking on user_id existence

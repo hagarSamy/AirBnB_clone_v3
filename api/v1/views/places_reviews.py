@@ -18,7 +18,6 @@ def get_reviews(place_id):
         abort(404)
     # retrieve reviews from the specified place
     reviews = [review.to_dict() for review in place.reviews]
-    
     return jsonify(reviews), 200
 
 
@@ -55,9 +54,9 @@ def add_review(place_id):
         abort(400, description="Not a JSON")
     reviewdict = request.get_json()
     if not storage.get(User, reviewdict['user_id']):
-            abort(404)
+        abort(404)
     if 'text' not in reviewdict:
-            abort(400, 'Missing text')
+        abort(400, 'Missing text')
     new_review = Place(**reviewdict)
     storage.new(new_review)
     storage.save()

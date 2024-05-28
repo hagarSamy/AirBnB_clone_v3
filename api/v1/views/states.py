@@ -42,7 +42,9 @@ def del_a_state(state_id):
 def add_state():
     """Creates a State"""
     # if not request.json:
-    if not request.get_json():
+    try:
+        request.get_json()
+    except Exception:
         abort(400, description="Not a JSON")
     # if 'name' not in request.json:
     if 'name' not in request.get_json():
@@ -62,7 +64,9 @@ def update_state(state_id):
     if state is None:
         abort(404)
     # if not request.json:
-    if not request.get_json():
+    try:
+        request.get_json()
+    except Exception:
         abort(400, description="Not a JSON")
     httpbody = request.json
     for key, value in httpbody.items():
